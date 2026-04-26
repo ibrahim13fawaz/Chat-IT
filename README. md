@@ -1,0 +1,151 @@
+# 🎙️ VoiceHub - Social Chat App
+
+تطبيق دردشة اجتماعي متكامل مشابه لـ Discord/Yalla مبني بـ HTML + CSS + JavaScript + Firebase
+
+-----
+
+## 🚀 المميزات
+
+- ✅ تسجيل الدخول وإنشاء حساب (Firebase Auth)
+- ✅ إنشاء غرف عامة وخاصة
+- ✅ نظام الأدوار (مالك / مشرف / مستخدم)
+- ✅ دردشة نصية داخل الغرف
+- ✅ نظام المتحدثين والمستمعين
+- ✅ رسائل خاصة 1-إلى-1
+- ✅ نظام الأصدقاء (إرسال / قبول / رفض)
+- ✅ تعديل الملف الشخصي ورفع الصور
+- ✅ قفل الغرف بكلمة مرور
+- ✅ طرد المستخدمين من الغرف
+- ✅ وضع تجريبي بدون Firebase
+
+-----
+
+## ⚙️ الإعداد
+
+### 1. إنشاء مشروع Firebase
+
+1. اذهب إلى [console.firebase.google.com](https://console.firebase.google.com)
+1. أنشئ مشروعاً جديداً
+1. فعّل **Authentication** → Email/Password
+1. فعّل **Realtime Database** → ابدأ في وضع الاختبار
+1. فعّل **Storage**
+
+### 2. نسخ إعدادات Firebase
+
+في ملف `app.js`، استبدل `firebaseConfig` بإعداداتك:
+
+```javascript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+```
+
+### 3. قواعد Firebase Database
+
+في Firebase Console → Realtime Database → Rules:
+
+```json
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+}
+```
+
+### 4. قواعد Firebase Storage
+
+```
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /avatars/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.uid == userId;
+    }
+  }
+}
+```
+
+-----
+
+## 🌐 النشر على GitHub Pages
+
+```bash
+git init
+git add .
+git commit -m "VoiceHub launch"
+git branch -M main
+git remote add origin https://github.com/USERNAME/voicehub.git
+git push -u origin main
+```
+
+ثم في GitHub: Settings → Pages → Source: main branch
+
+-----
+
+## 📁 هيكل المشروع
+
+```
+voicehub/
+├── index.html        # التطبيق الكامل (SPA)
+├── style.css         # التصميم الكامل
+├── app.js            # المنطق البرمجي الكامل
+├── firebase/
+│   └── config.js     # إعدادات Firebase
+└── README.md
+```
+
+-----
+
+## 🗃️ هيكل Firebase Database
+
+```
+/users/{uid}
+  - uid, name, email, bio, photoURL, role
+
+/rooms/{roomId}
+  - roomId, name, ownerId, type, isLocked, password
+  - /users/{uid}
+  - /speakers/{uid}
+  - /moderators/{uid}
+
+/roomMessages/{roomId}/{msgId}
+  - from, name, text, timestamp
+
+/messages/{chatId}/{msgId}
+  - from, text, timestamp
+
+/userChats/{uid}/{partnerUid}
+  - partnerName, lastMessage, timestamp
+
+/friends/{uid}/{friendUid}
+  - status (accepted/sent)
+
+/friendRequests/{uid}/{senderUid}
+  - senderName, status, timestamp
+```
+
+-----
+
+## 🎙️ الصوت (WebRTC - مرحلة قادمة)
+
+لإضافة الصوت الحقيقي، يمكن دمج:
+
+- **Agora SDK** - مجاني حتى 10,000 دقيقة/شهر
+- **ZegoCloud** - مجاني للمشاريع الصغيرة
+- **WebRTC Native** - مجاني تماماً لكنه أصعب
+
+-----
+
+## 📱 متطلبات النشر
+
+- أي خادم ويب ثابت (GitHub Pages, Netlify, Vercel)
+- لا يحتاج backend خاص
+- Firebase يتولى كل شيء
