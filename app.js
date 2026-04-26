@@ -10,15 +10,16 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from “ht
 
 // ===== FIREBASE INIT =====
 // TODO: Replace with your Firebase config at firebase/config.js
-// For demo purposes, the config is inline here. In production, import from config.js
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-apiKey: “AIzaSyDEMO-REPLACE-WITH-YOUR-KEY”,
-authDomain: “voicehub-demo.firebaseapp.com”,
-databaseURL: “https://voicehub-demo-default-rtdb.firebaseio.com”,
-projectId: “voicehub-demo”,
-storageBucket: “voicehub-demo.appspot.com”,
-messagingSenderId: “000000000000”,
-appId: “1:000000000000:web:0000000000000000”
+  apiKey: "AIzaSyCXA1x9fJe6zPFo7yiK1kSRsoR89aSff5k",
+  authDomain: "itchat-web-8c4ed.firebaseapp.com",
+  databaseURL: "https://itchat-web-8c4ed-default-rtdb.firebaseio.com",
+  projectId: "itchat-web-8c4ed",
+  storageBucket: "itchat-web-8c4ed.firebasestorage.app",
+  messagingSenderId: "787261764804",
+  appId: "1:787261764804:web:7af9a924d03989b1dbc591",
+  measurementId: "G-1KPE5B71QR"
 };
 
 let app, auth, db, storage;
